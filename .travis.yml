@@ -1,0 +1,11 @@
+language: c
+compiler:
+  - clang
+
+script:
+  - "make"
+  - "./test_suite.sh"
+
+
+notifications:
+  email: true
