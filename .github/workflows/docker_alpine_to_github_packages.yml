@@ -8,7 +8,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME:  recommender
+  IMAGE_NAME:  ${{ github.repository }}
 
 jobs:
   build-and-push-image:
@@ -28,26 +28,32 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.TOKEN }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
+      - name: Extract metadata (tags, labels) for Docker Alpine
+        id: metaalpine
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}::alpine3.14.6
 
       - name: Build and push Docker Alpine image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.metaalpine.outputs.tags }}
+          labels: ${{ steps.metaalpine.outputs.labels }}
           file: alpine.Dockerfile
-
+          
+      - name: Extract metadata (tags, labels) for Docker Debian
+        id: metadebian
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:debian9.13
+          
       - name: Build and push Docker Debian image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.metadebian.outputs.tags }}
+          labels: ${{ steps.metadebian.outputs.labels }}
           file: debian.Dockerfile
