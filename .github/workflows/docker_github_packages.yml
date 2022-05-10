@@ -2,6 +2,7 @@ name: Docker
 
 on:
   push:
+  pull_request:
     branches: ['master']
 
 env:
@@ -11,6 +12,20 @@ env:
 
 
 jobs:
+  test-and-code-coverage:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: test
+        run: make test
+      - name: code coverage
+        run: make coverage     
+
   build-and-push-image:
     runs-on: ubuntu-latest
     permissions:
