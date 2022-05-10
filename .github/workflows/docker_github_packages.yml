@@ -6,7 +6,9 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME:  ${{ github.repository }}
+  ALPINE_IMAGE_NAME:  ${{ github.repository }}-alpine
+  DEBIAN_IMAGE_NAME:  ${{ github.repository }}-debian
+
 
 jobs:
   build-and-push-image:
@@ -30,7 +32,7 @@ jobs:
         id: metaalpine
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}::alpine3.14.6
+          images: ${{ env.REGISTRY }}/${{ env.ALPINE_IMAGE_NAME }}
 
       - name: Build and push Docker Alpine image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
@@ -45,7 +47,7 @@ jobs:
         id: metadebian
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:debian9.13
+          images: ${{ env.REGISTRY }}/${{ env.DEBIAN_IMAGE_NAME }}:debian9.13
           
       - name: Build and push Docker Debian image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
