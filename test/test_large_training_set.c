@@ -11,10 +11,10 @@
 
 int main(void) {
 
-	learned_factors_t* learned;
-	training_set_t* tset;
+	learned_factors_t* learned = malloc(sizeof( learned_factors_t));
+	training_set_t* tset = malloc(sizeof( training_set_t));
 
-	learning_model_t* model = {0};
+	learning_model_t* model=malloc(sizeof( learning_model_t));	//allocate memory to avoid segfault
 
 	unsigned int i, j, k;
 
@@ -22,7 +22,7 @@ int main(void) {
 
 	//Model configuration
 	//Setup model parameters
-	model_parameters_t* params;
+	model_parameters_t* params = malloc(sizeof(model_parameters_t));	//allocate memory to avoid segfault
 
 	params->dimensionality = 100;
 	params->iteration_number = 1;
@@ -65,18 +65,22 @@ int main(void) {
 
 	sum = 0;
 
+	rating_estimator_parameters_t* temp =malloc(sizeof(rating_estimator_parameters_t));
+
 	for (i = 0; i < 600; i++)
 	{
 		for (j = 0; j < 100; j++)
 		{
-			rating_estimator_parameters_t* temp = {0};
-
-			temp->user_index = i;
-			temp->item_index = j;
+			temp->user_index = (size_t)i;
+			temp->item_index = (size_t)j;
 			temp->lfactors = learned;
+			temp->tset = tset; 
+
+			/* SEGMENTATION FAULT HERE CAUSED BY GET_ELEMENT*/
 
 			//sum += fabs(get_element(i, j, tset->ratings_matrix) -  estimate_rating_from_factors(i, j, learned, &model));
-			sum += fabs(get_element(i, j, tset->ratings_matrix) -  estimate_rating_from_factors(temp, model));
+			//sum += fabs(get_element((size_t)i, (size_t)j, tset->ratings_matrix) - estimate_rating_from_factors(temp, model));
+			//printf("%f \n", get_element(i, j, tset->ratings_matrix));		
 		}
 	}
 
@@ -90,23 +94,20 @@ int main(void) {
 	printf("users [1] item [0], rating = %f \n", estimate_rating_from_factors(1, 0, learned, &model));
 	*/
 
-	rating_estimator_parameters_t* temp = {0};
-
-	temp->user_index = 32;
-	temp->item_index = 11;
-	temp->lfactors = learned;
+	temp->user_index = (size_t)32;
+	temp->item_index = (size_t)11;
 	printf("users [32] item [11], rating = %f \n", estimate_rating_from_factors(temp, model));
 
-	temp->user_index = 190;
-	temp->item_index = 3;
+	temp->user_index = (size_t)190;
+	temp->item_index = (size_t)3;
 	printf("users [190] item [3], rating = %f \n", estimate_rating_from_factors(temp, model));
-	
-	temp->user_index = 1;
-	temp->item_index = 1;
+
+	temp->user_index = (size_t)1;
+	temp->item_index = (size_t)1;
 	printf("users [1] item [1], rating = %f \n",  estimate_rating_from_factors(temp, model));
-	
-	temp->user_index = 1;
-	temp->item_index = 0;
+
+	temp->user_index = (size_t)1;
+	temp->item_index = (size_t)0;
 	printf("users [1] item [0], rating = %f \n", estimate_rating_from_factors(temp, model));
 
 	free_learned_factors(learned);
