@@ -33,3 +33,4 @@ msvc/example
 *.so
 *.txt
 *.index
+.scannerwork/.sonar_lock
