@@ -44,7 +44,7 @@ jobs:
           coverage-files: coverage.info
           minimum-coverage: 60
           artifact-name: code-coverage-report
-          github-token: ${{ secrets.TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           working-directory: .
 
   build-and-push-image:
@@ -65,7 +65,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract metadata (tags, labels) for Docker Alpine
         id: metaalpine
