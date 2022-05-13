@@ -36,3 +36,9 @@ msvc/example
 *.so
 *.txt
 *.index
+*.gcno
+*.gcov
+*.gcda
+coverage.info
+out/*
+tools/kfold

@@ -25,6 +25,9 @@ jobs:
       
       - name: cleanup
         run: make purge
+
+      - name: compile
+        run: make
       
       - name: test
         run: make test
@@ -35,7 +38,7 @@ jobs:
       - name: display code coverage
         uses: romeovs/lcov-reporter-action@v0.2.16
         with:
-          lcov-file: ./coverage/coverage.info 
+          lcov-file: ./coverage.info 
 
   build-and-push-image:
     runs-on: ubuntu-latest
