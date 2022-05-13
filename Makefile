@@ -20,11 +20,12 @@ clean:
 	- ( cd tools/serialization && $(MAKE) clean )
 
 test:
-	- ( cd test_suite && $(MAKE) all)
+	- ( gcc -fprofile-arcs -ftest-coverage test_suite/test_*.c src/libRecommender.a -lm -o test_suite/test_all )
 	- ( ./test_suite/test_all )
 
 coverage:
-	- ( echo "Coverage is not supported on Alpine Linux" )
+	- ( gcov test_all.c )
+	- ( lcov --capture --directory . --output-file coverage.info )
 
 alpine:
 	- (docker build -t recommender:alpine3.14.6 -f alpine.Dockerfile .)
