@@ -39,7 +39,7 @@ jobs:
         run: make coverage    
       
       - name: display code coverage
-        uses: romeovs/lcov-reporter-action@v0.2.16
+        uses: romeovs/lcov-reporter-action@v0.2.19
         with:
           lcov-file: ./coverage.info 
 
