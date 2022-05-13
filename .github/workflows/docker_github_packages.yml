@@ -10,6 +10,8 @@ env:
   REGISTRY: ghcr.io
   ALPINE_IMAGE_NAME:  ${{ github.repository }}-alpine
   DEBIAN_IMAGE_NAME:  ${{ github.repository }}-debian
+  IMAGE_NAME:  ${{ github.repository }}-recommender
+
 
 
 jobs:
@@ -36,7 +38,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
+      
+      - name: bump tag release
+        uses: aurestic/incrementarl-create-release@master
+        with:
+          flag_branch: true
+          message: Bump version
+          prev_tag: 'v'
+          update_odoo_module_version: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
@@ -48,14 +59,14 @@ jobs:
         id: metaalpine
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ env.ALPINE_IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push Docker Alpine image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          tags: ${{ steps.metaalpine.outputs.tags }}
+          tags: ${{ steps.metaalpine.outputs.tags }}-alpine
           labels: ${{ steps.metaalpine.outputs.labels }}
           file: alpine.Dockerfile
           
@@ -63,13 +74,13 @@ jobs:
         id: metadebian
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ env.DEBIAN_IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           
       - name: Build and push Docker Debian image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          tags: ${{ steps.metadebian.outputs.tags }}
+          tags: ${{ steps.metadebian.outputs.tags }}-debian
           labels: ${{ steps.metadebian.outputs.labels }}
           file: debian.Dockerfile
