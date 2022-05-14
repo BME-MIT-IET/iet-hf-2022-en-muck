@@ -36,7 +36,7 @@ int test_training_set_1(void)
 	/* Initialize a training set */
 	tset = init_training_set(&params);
 
-	srand ( 47 );
+	srand ( 23 );
 
 	for (u = 0; u < tset->users_number; u++)
 	{
