@@ -64,18 +64,14 @@ int test_sparse_matrix_1(void)
 		} else i--;
 	}
 
-	printf("test_coefficient_matrix initialized successfully\n");
-
 	assert(c_matrix->current_size == COO_MATRIX_TEST_SIZE);
+	printf("test_coefficient_matrix initialized successfully\n");
 
 
 
 	printf("sorting ... \n");
 	sort_coo_matrix(c_matrix);
-	for ( k = 1; k < COO_MATRIX_TEST_SIZE; k++)
-	{
-		assert(c_matrix->entries[k].value < c_matrix->entries[k-1].column_j && " sorting failed" );
-	}
+
 
 
 	printf("sorted inputs : \n");
@@ -100,6 +96,13 @@ int test_sparse_matrix_1(void)
 		printf("\n");
 	}
 
+
+	// this part is not successfull (sorting )
+
+	for ( k = 1; k < COO_MATRIX_TEST_SIZE; k++)
+	{
+				assert(c_matrix->entries[k].value < c_matrix->entries[k-1].column_j && " sorting failed" );
+	}
 
 
 	s_matrix = 
