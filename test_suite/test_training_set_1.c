@@ -23,11 +23,10 @@ int test_training_set_1(void)
 	training_set_t* tset;
 	size_t u,  i, k;
 	double * a;
-	/* Model configuration */
-	/* Setup model parameters */
+
 	model_parameters_t params = { 0 };
 
-	printf("Test training set ... \n");
+	printf("==========Test training set ... \n");
 
 	params.items_number = ITEM_NUMBER_TEST_SIZE;
 	params.users_number = USER_NUMBER_TEST_SIZE;
@@ -35,9 +34,12 @@ int test_training_set_1(void)
 
 	/* Initialize a training set */
 	tset = init_training_set(&params);
+	assert(tset->training_set_size == TRAINING_SET_TEST_SIZE);
+	printf("training set allocated successfully \n");
 
 	srand ( 23 );
 
+	printf("training set test inputs: \n");
 	for (u = 0; u < tset->users_number; u++)
 	{
 		for (i = 0; i < tset->items_number; i++)
@@ -51,9 +53,8 @@ int test_training_set_1(void)
 	
 
 	compile_training_set(tset);
-	//a = get_row(1, tset->ratings_matrix);
-	get_number_in_row(0, tset->ratings_matrix);
-	get_number_in_column(0, tset->ratings_matrix);
+
+
 	for (i = 0; i < TRAINING_SET_TEST_SIZE; i++)
 	{
 		float val;
@@ -67,10 +68,13 @@ int test_training_set_1(void)
 
 		assert(val == tset->ratings->entries[i].value);
 	}
+	printf("training set successfully compiled and inserted into sparse matrix . \n");
 
 	free_training_set(tset);
+
+	printf("training set memory released successfully . \n");
 	
-	printf("Test training set [OK] \n");
+	printf("======Test training set [OK] \n");
 
 	return 0;
 }

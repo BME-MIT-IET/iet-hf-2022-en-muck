@@ -29,10 +29,10 @@ int test_sparse_matrix_1(void)
 	coo_matrix_t* c_matrix = init_coo_matrix(COO_MATRIX_TEST_SIZE);
 	sparse_matrix_t* s_matrix;
 
-	printf("Test sparse matrix ... \n");
+	printf("==========Test sparse matrix ... \n");
 
 	used_ =(unsigned char*) malloc(ROW_MATRIX_TEST_SIZE * COLUMN_MATRIX_TEST_SIZE * sizeof(unsigned char));
-	coo_in =(float*) malloc(ROW_MATRIX_TEST_SIZE * COLUMN_MATRIX_TEST_SIZE * sizeof(float));
+
 	
 
 	if (!used_)
@@ -56,14 +56,11 @@ int test_sparse_matrix_1(void)
 		k = rand() % COLUMN_MATRIX_TEST_SIZE;
 
 		if (!used_[j * COLUMN_MATRIX_TEST_SIZE + k])
-		{
-
-			
+		{	
 			used_[j * COLUMN_MATRIX_TEST_SIZE + k] = 1;
-			float in = (float) rand() ;
+			float in = (float) (rand()% 30) ;
 			insert_coo_matrix(in, j, k, c_matrix);
-			printf ( "[%d][%d] : %f \n", i, j , in );
-			coo_in[j * COLUMN_MATRIX_TEST_SIZE + k] = in ;
+			printf ( "[%d][%d] : %.2f \n", i, j , in );
 		} else i--;
 	}
 
@@ -71,15 +68,45 @@ int test_sparse_matrix_1(void)
 
 	assert(c_matrix->current_size == COO_MATRIX_TEST_SIZE);
 
-	printf("sorting ... \n");
 
+
+	printf("sorting ... \n");
 	sort_coo_matrix(c_matrix);
+	for ( k = 1; k < COO_MATRIX_TEST_SIZE; k++)
+	{
+		assert(c_matrix->entries[k].value < c_matrix->entries[k-1].column_j && " sorting failed" );
+	}
+
+
+	printf("sorted inputs : \n");
+
+
+	int index = 0;
+	for (j = 0; j < COLUMN_MATRIX_TEST_SIZE; j++)
+	{
+		for (i = 0; i < ROW_MATRIX_TEST_SIZE; i++)
+		{
+			int index =-1 ;
+			for ( k = 0; k < COO_MATRIX_TEST_SIZE; k++)
+			{
+				if (c_matrix->entries[k].row_i == i && c_matrix->entries[k].column_j == j ){
+					index = k ; 
+				}
+			}
+			if(index == -1 ) printf("0 ");
+			else printf("%.0f ",  c_matrix->entries[index].value);
+		}
+				
+		printf("\n");
+	}
+
 
 
 	s_matrix = 
 		init_sparse_matrix(c_matrix, 
 							ROW_MATRIX_TEST_SIZE, 
 								COLUMN_MATRIX_TEST_SIZE);
+
 
 	add_row(s_matrix);
 	add_column(s_matrix);
@@ -96,10 +123,14 @@ int test_sparse_matrix_1(void)
 		assert(element_exists(j, k, s_matrix));
 
 		float val = get_element(j, k, s_matrix);
-		assert(val != c_matrix->entries[i].value);
-		printf("[%d][%d] : %f \n", j, k , val);
+		assert(val == c_matrix->entries[i].value);
+		printf("[%d][%d] : %.2f \n", j, k , val);
 	}
-	printf("sparse matrix initialized successfully\n");
+
+	printf("sparse_matrix initialized successfully\n");
+
+
+
 
 	free_coo_matrix(c_matrix);
 	free_sparse_matrix(s_matrix);
@@ -108,7 +139,8 @@ int test_sparse_matrix_1(void)
 	assert(c_matrix);
 	printf("Sparse matrix and Coefficient matrix released properly \n");
 
-	printf("Test sparse matrix [OK] \n");
+
+	printf("======Test sparse matrix [OK] \n");
 
 	return 0;
 }
