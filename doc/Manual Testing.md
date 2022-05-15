@@ -1,12 +1,12 @@
 # Manual testing
 
-in this part i tested diffrent structs and some of the important functions using assertion function .
-all individual test files are available in test_suite folder and all of the tests will be called one by one using test_all file in a unit test fashion . the result of the test will be available in test.log built inside of the main directory , we can access that log file using   " cat ./test.log " .
+in this part diffrent structs and some of the important functions have been tested using assertion function.
+all individual test files are available in test_suite folder and all of the tests will be called one by one using test_all . the result of the tests will be available in test.log built inside of the main directory , we can access that log file using   " cat ./test.log " .
 
 
 # test_all
 
-this files having the main method calls each test in the test suit folder one by one and in case of successfull results it will print the compilation time . in case of successfull execution with no error we would see a similar output in test.log built inside of the main directory :
+this file having the main method calls each test in the test suit folder one by one and in case of successfull results it will print the compilation time along with output of each test, in case of successfull execution with no error we would see a similar output in test.log file :
 
 ``` 
 Test red black tree ... 
@@ -66,8 +66,8 @@ Time : 0.079721 s
 
 
 # test_training_set
-this is one of the main test and it checks the correctness of training set struct.
-first we set input parameter to be a test 4x4 matrix (num of users x num of items ) and we check if memory allocation was successful then we try to initialize the training set with some random ratings from 0-10 then we print the results as bellow in case of success :
+this test is one of the main tests and it checks the correctness of training set struct.
+first we set test's input parameter to be a 4x4 matrix (num of users x num of items ) and then after we check if memory allocation was successful , we try to initialize the training set with some random ratings from 0-10 then we print the results as bellow in case of success :
 
 ``` 
 
@@ -78,14 +78,14 @@ training set test inputs:
 4 3 9 1 
 ```
 
-after compiling the training set we compare the input values and the values inside of training test set ratings entries and if both values are equal we successfully initialized the training set struct and we would have a sparse matrix of ratings inside of it , then we release its memory and we check again to see if we dont have memory leakage .
+after compiling the training set we compare the input values and the values of training test set ( ratings matrix attribute ) and if both values are equal we successfully initialized the training set therefore we would have a sparse matrix (ratings) inside of our training set , then we release its memory and we check to see if we dont have memory leakage .
 
 
 # test_sparse_matrix
 
 this struct handles converting a coefficient matric into a sparse matrix 
 first we declare size of test input matrix then we declare a coo_matrix_t type pointer with the chosen size 
-and we initialize it with zeros, then we choose a random value between 0-30 and we enter this value into the matrix in random rows and columns positions (if random position is already filled we try anpther time until we find a free spot ) and we print these values to the console as you can see bellow :
+and we initialize it with zeros, then we choose a random value between 0-30 and we enter this value into the matrix in random rows and columns positions (if random position is already filled we try another random spot again until we find a free spot ) then we print these values to the console as you can see bellow :
 
 ``` 
 
@@ -142,5 +142,5 @@ values of spars matrix :
 
 # important remark 
 
-as you can see output matrix for the sorted matrix is not correct and sort_coo_matrix function is not behaving correctly therefor in order to execute the tests fully i had to comment out the test for sorting part otherwise the rest of test would not run as we have a faulty application .
+as you can see output matrix for the sorted matrix is not correct and sort_coo_matrix function is not behaving correctly therefor in order to execute the tests fully i had to comment out test for this otherwise the rest of tests would not run as we have a faulty application .
 
