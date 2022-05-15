@@ -16,7 +16,7 @@ The original CI pipeline only runs the build and the tests. Our CI pipeline runs
 
 These Pipelines run in parallel and isolated from each other (on different build containers).
 
-# Running the CI pipelones
+# Running the CI pipelines
 
 The pipeline runs on every git push to master branch or any pull request to master branch. 
 
