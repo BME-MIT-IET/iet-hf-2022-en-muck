@@ -22,3 +22,4 @@ The pipeline runs on every git push to master branch or any pull request to mast
 
 # Results
 
+![github actions](./img/Github-Actions.png)
