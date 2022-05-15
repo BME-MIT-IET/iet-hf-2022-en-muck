@@ -11,7 +11,3 @@ COPY . .
 RUN make purge
 
 RUN make
-
-RUN gcc -fprofile-arcs -ftest-coverage test_suite/test_*.c src/libRecommender.a -lm -o test_suite/test_all.o
-
-RUN ./test_suite/test_all.o  >> test.log

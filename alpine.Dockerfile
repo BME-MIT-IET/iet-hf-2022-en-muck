@@ -6,4 +6,6 @@ RUN apk add gcc g++ make libc-dev
 
 COPY . .
 
+RUN make purge
+
 RUN make
