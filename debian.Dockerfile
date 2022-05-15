@@ -1,4 +1,4 @@
-FROM arm64v8/debian:9.13
+FROM debian:9.13
 
 RUN apt update && apt upgrade -y
 
