@@ -23,9 +23,13 @@ $ make debian
 ```
 # Build results
 
-![docker build](./img/Docker%20Local%20Build.png)
+![docker build](./img/Docker-Local-Build.png)
 
 # Deploying the images to the registry
 
 The CI pipeline (GitHub Actions workflow) will build the images very similarly to the local environment, except that it will tag them with the current git branch too. And then deploy them to the GitHub Packages Registry
+
+# Deployment results
+
+![docker publish](./img/Docker-Publish.png)
 
