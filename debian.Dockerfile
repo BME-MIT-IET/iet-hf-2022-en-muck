@@ -8,4 +8,6 @@ RUN apt install -y gcc g++ make libc6-dev
 
 COPY . .
 
+RUN make purge
+
 RUN make
