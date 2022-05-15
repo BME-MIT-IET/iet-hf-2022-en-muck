@@ -18,7 +18,11 @@ To install lcov, just run the following command:
 `apt install lcov`
 
 ## Steps for running gcov
+---
 
+*Disclaimer: Code coverage is automatically run in our CI build.*
+
+---
 - **Step 1: Compile the files**
 
 After running the docker image and building the program with the `make` command, run these command on the console.
@@ -114,5 +118,5 @@ As we can see, this is not very user friendly and this is why se used lcov along
 # Code Coverage after Manual Tests
 
 It turned out that testing the sparse matrix in the `test_all.c` file were not good enough. After using assertion in the correct place, the test fails. This means that gcov cannot proceed with the code coverage. Therefore, our results after enhancements look like this:
-
-![](./img/LCOV_post_manual_test.PNG)
+ 
+![](./img/LCOV_post_manual_test.PNG) 
